@@ -5,16 +5,22 @@ import inquirer
 
 def func_call_redirect(choice):
     
-    
-    if choice['select'] == 'New Deployment':
-        print('selected 1')
-        #deployment_new_firewall()
-    elif choice['select'] == 'Firewall Policy':
-        print('selected 2')
-        #deployment_()
+
+    if choice['select'] == fortios_functions[0]:
+        print(choice['select'])
+    elif choice['select'] == fortios_functions[1]:
+        print(choice['select'])
+    elif choice['select'] == fortios_functions[2]:
+        print(choice['select'])
+    elif choice['select'] == fortios_functions[3]:
+        print(choice['select'])
+    else:
+        print("Contact Admministrator")
     return
 
 def tech_selection():
+    global fortios_functions
+    
     fortios_functions = ['New Deployment', 'Firewall Policy', 'Firewall validation basic', 'Firewall validation advance']
     user_choice = inquirer.List('select', 
                                 message="What is function you want proceed with?",
