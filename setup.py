@@ -37,8 +37,7 @@ def service_select():
     else:
         # this option will be only visibile to user, if there is code issue within nestedif
         print("Contact Admministrator")
-    
-    return
+    pass
 
 
 if __name__ == "__main__":    
