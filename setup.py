@@ -1,7 +1,9 @@
-#COMMENTED OUT MODULE - UNCOMMMENT IN PROD ENVIRONMENT
+"""
+This is the program to be replaced with the API and seprate frontend model. 
+"""
+
 #import maskpass
 import inquirer
-import time
 from templates.src import new_deploy
 from templates.src import firewall_policy
 from templates.src import basic_firewall_validation
@@ -20,7 +22,8 @@ def service_select():
     selected_choice = inquirer.prompt(user_choice)
 
 
-    # nested if for each of the function to redirect program to correct function. individual function will be in ./template directory
+    # nested if for each of the function to redirect to respective funtions. 
+    # individual function will be in ./template/src directory
     if selected_choice['select'] == fortios_functions[0]:
         new_deploy.main()
     elif selected_choice['select'] == fortios_functions[1]:
@@ -38,11 +41,8 @@ def service_select():
     return
 
 
-if __name__ == "__main__":
-
-    ts = time.time()
-    
-    #REQUEST FOR THE USERNAME AND SECRET TO CONNECT THE FIREWALL
+if __name__ == "__main__":    
+    # Request username and password from the user
     #COMMENTED OUT FOR DEV ENVIRONTMENT
     #username = input("Enter the username: ")
     #password = maskpass.askpass()
@@ -51,8 +51,5 @@ if __name__ == "__main__":
     username = 'adesai'
     password = 'QAZX!@34qazx'
 
-    #CALLING SERVICE QUESTIONARY FUNCTION
+    # to the main function
     service_select()
-
-    tf = time.time()
-    print('End of Program, ended in ' + str(tf-ts) + ' seconds')
