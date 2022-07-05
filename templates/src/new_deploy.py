@@ -4,15 +4,51 @@ create a fortinet template.
 """
 
 import pandas as pd
+import inquirer
+import maskpass
+
+def validate_mgmt_ips(management_ips):
+    
+
+    pass
+
+def host_names(dict):
+
+    primary_hostname = dict['SITE CODE'] + '-' +dict['SEGMENTATION TYPE'] + '-FORT-FW01'
+    secondary_hostname = dict['SITE CODE'] + '-'+ dict['SEGMENTATION TYPE'] + '-FORT-FW02'
+
+    user_choice = inquirer.List('select',
+                                message=("Are you good with firewall hostnames " + primary_hostname + ' and ' + secondary_hostname + '?'),
+                               choices=['Yes', 'No']),
+
+    selected_choice = inquirer.prompt(user_choice)['select']
+
+    if selected_choice == 'Yes':
+        dict.update({"primary_hostname": primary_hostname, "secondary_hostname": secondary_hostname})
+    else:
+        primary_hostname = input("Enter Hostname for Primary Firewall: ")
+        secondary_hostname = input("Enter Hostname for Slave Firewall: ")
+        dict.update({"primary_hostname": primary_hostname, "secondary_hostname": secondary_hostname})
+
+    pass
+
 
 def standalone_mode_configuration(dict):
     print("")
     print("WORKING IN PROGRESS")
-    return
+    pass
 
 def active_passive_mode_configuration(dict):
     print("")
-    print("WORKING IN PROGRESS")
+    host_names(dict)
+    management_ips = dict['MANAGEMENT IPS'].split(',')
+    validate_mgmt_ips(management_ips)
+    dict.update({'mgmt_ip1': management_ips[0], 'mgmt_ip2': management_ips[1]})
+    ha_interfaces = dict['HA INTERFACES'].split(',')
+    dict.update({'ha_intf1': ha_interfaces[0], 'ha_intf2': ha_interfaces[1]})
+    tacacs_secret = maskpass.askpass(prompt='Enter TACACS KEY: ')
+    dict.update({'tacacs_key': tacacs_secret})
+
     pass
 
 def active_active_mode_configuraton(dict):
@@ -31,39 +67,6 @@ def basic_info_append(dict):
         print("Incorrect HA Mode selected")
     pass
 
-"""
-class firewall_basic_info:
-
-    def __init__(self, *args, **kwargs):
-        self.firewall_model = df_basic_info.at["FIREWALL MODEL", 'USER INPUT']
-        self.site_code = df_basic_info.at['SITE CODE','USER INPUT']
-        self.cluster_number = df_basic_info.at['CLUSTER NUMBER', 'USER INPUT']
-        self.segmentation_type = df_basic_info.at['SEGMENTATION TYPE', 'USER INPUT']
-        self.region = df_basic_info.at['REGION', 'USER INPUT']
-        self.mgmt_interface = df_basic_info.at['MANAGEMENT INTERFACE', 'USER INPUT']
-        self.mgmt_ips = df_basic_info.at['MANAGEMENT IPS', 'USER INPUT']
-        self.mgmt_netmask = df_basic_info.at['MANAGEMENT NETMASK', 'USER INPUT']
-        self.mgmt_gateway = df_basic_info.at['MANAGEMENT GATEWAY', 'USER INPUT']
-        self.ha_mode = df_basic_info.at['HA MODE', 'USER INPUT']
-        self.ha_interfaces = df_basic_info.at['HA INTERFACES', 'USER INPUT']
-        self.lacp_interfaces = df_basic_info.at['LACP INTERFACES', 'USER INPUT']
-        self.default_gateway = df_basic_info.at['DEFAULT GATEWAY', 'USER INPUT']
-
-    def firewall_basic_info_print(self):
-        print("Firewall Model is " + self.firewall_model)
-        print("site code is " + self.site_code)
-        print("Cluster Number is" + str(self.cluster_number))
-        print("Segmentation type is" + self.segmentation_type)
-        print("Region is " + self.region)
-        print("Management Interfaces is " + self.mgmt_interface)
-        print("Management IPs are " + self.mgmt_ips)
-        print("Management gateway is " + self.mgmt_gateway)
-        print("HA mode is " + self.ha_mode)
-        print("HA interfaces are " + self.ha_interfaces)
-        print("LACP interfaces are " + self.lacp_interfaces)
-        print("Default route is " + self.default_gateway)
-
-"""
 
 def main():
     global dict_basic
@@ -76,8 +79,11 @@ def main():
 
     # converting the panda dataframe to dictonary
     dict_basic = df_basic_info.to_dict().get('USER INPUT')
-    print(dict_basic['HA MODE'])
+
     basic_info_append(dict_basic)
+
+    print(dict_basic)
+    pass
 
 
 if __name__ == "__main__":

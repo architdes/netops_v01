@@ -3,7 +3,7 @@ purge
 y
 end
 config system global
-set hostname {{secondary_host_name}}
+set hostname {{secondary_hostname}}
 end
 config system settings
 set gui-allow-unnamed-policy enable
@@ -35,8 +35,8 @@ set group-name {{cluster_name}}
 set mode {{ha_mode}}
 set priority 80
 set password {{ha_password}}
-set hbdev "{{ha_interface1}}" 50 "{{ha_interface2}}" 50
-set monitor {{ha_interface1}}
+set hbdev {{ha_intf1}} 50 {{ha_intf2}} 50
+set monitor {{ha_intf1}}
 set override disable
 set ha-mgmt-status enable
 config ha-mgmt-interfaces

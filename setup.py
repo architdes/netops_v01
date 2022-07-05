@@ -20,20 +20,20 @@ def service_select():
                                 choices=fortios_functions,
                                 ),
     
-    selected_choice = inquirer.prompt(user_choice)
+    selected_choice = inquirer.prompt(user_choice)['select']
 
 
     # nested if for each of the function to redirect to respective funtions. 
     # individual function will be in ./template/src directory
-    if selected_choice['select'] == fortios_functions[0]:
+    if selected_choice == fortios_functions[0]:
         new_deploy.main()
-    elif selected_choice['select'] == fortios_functions[1]:
+    elif selected_choice == fortios_functions[1]:
         firewall_policy.main()
-    elif selected_choice['select'] == fortios_functions[2]:
+    elif selected_choice == fortios_functions[2]:
         basic_firewall_validation.main()
-    elif selected_choice['select'] == fortios_functions[3]:
+    elif selected_choice == fortios_functions[3]:
         advance_firewall_validation.main()
-    elif selected_choice['select'] == fortios_functions[4]:
+    elif selected_choice == fortios_functions[4]:
         print("")
     else:
         # this option will be only visibile to user, if there is code issue within nestedif
