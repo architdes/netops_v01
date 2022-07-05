@@ -9,6 +9,7 @@ from templates.src import firewall_policy
 from templates.src import basic_firewall_validation
 from templates.src import advance_firewall_validation
 
+
 def service_select():
     # list of function performed by the program
     fortios_functions = ['New Deployment', 'Firewall Policy', 'Firewall validation basic', 'Firewall validation advance', 'Return']
@@ -40,7 +41,8 @@ def service_select():
     pass
 
 
-if __name__ == "__main__":    
+if __name__ == "__main__":
+
     # Request username and password from the user
     #COMMENTED OUT FOR DEV ENVIRONTMENT
     #username = input("Enter the username: ")

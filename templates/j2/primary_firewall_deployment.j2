@@ -1,0 +1,76 @@
+config system dhcp server
+purge
+y
+end
+config system global
+set hostname {{primary_host_name}}
+end
+config system settings
+set gui-allow-unnamed-policy enable
+end
+config system interface
+edit fortilink
+unset member
+next
+edit {{mgmt_interface}}
+set vdom root
+set dedicated-to management
+set role undefine
+set allowaccess ping https ssh snmp radius-acct
+set ip {{mgmt_ip2}}/{{mgmt_netmask}}
+set lldp-reception enable
+set lldp-transmission enable
+next
+edit ha1
+set lldp-reception enable
+set lldp-transmission enable
+next
+edit ha2
+set lldp-reception enable
+set lldp-transmission enable
+next
+end
+config system ha
+set group-name {{cluster_name}}
+set mode a-p
+set priority 120
+set password {{ha_password}}
+set hbdev {{ha_interface1}} 50 {{ha_interface2}} 50
+set monitor {{ha_interface1}}
+set override disable
+set ha-mgmt-status enable
+config ha-mgmt-interfaces
+edit 1
+set interface "{{mgmt_interface}}"
+set gateway {{mgmt_gateway}}
+next
+end
+end
+config user tacacs+
+edit tacacs_servers
+{% if region == 'AMER' %}
+set server 10.0.115.10
+set secondary-server 10.123.4.21
+{% else %}
+set server 10.123.4.21
+set secondary-server 10.0.115.10
+{%endif%}
+set key {{tacacs_key}}
+set secondary-key {{tacacs_key}}
+set authen-type ascii
+set authorization enable
+next
+end
+config user group
+edit tacacs_group
+set member "tacacs_servers"
+end
+config system admin
+edit tacacs_admin
+set remote-auth enable
+set accprofile "super_admin"
+set vdom "root"
+set wildcard enable
+set remote-group "tacacs_group"
+next
+end
