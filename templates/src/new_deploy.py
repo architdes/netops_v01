@@ -6,21 +6,24 @@ create a fortinet template.
 import pandas as pd
 
 def standalone_mode_configuration(dict):
-    print("/n WORKING IN PROGRESS")
+    print("")
+    print("WORKING IN PROGRESS")
     return
 
 def active_passive_mode_configuration(dict):
-    print("/n WORKING IN PROGRESS")
+    print("")
+    print("WORKING IN PROGRESS")
     pass
 
-def active_active_mode_configuration(dict):
-    print("/n WORKING IN PROGRESS")
+def active_active_mode_configuraton(dict):
+    print("")
+    print("WORKING IN PROGRESS")
     pass
 
 def basic_info_append(dict):
     if dict['HA MODE'] == 'standalone':
         standalone_mode_configuration(dict_basic)
-    elif dict['HA MODE'] == 'a-p':
+    elif dict['HA MODE'] == "a-p":
         active_passive_mode_configuration(dict_basic)
     elif dict['HA MODE'] == 'a-a':
         active_active_mode_configuraton(dict_basic)
@@ -28,7 +31,7 @@ def basic_info_append(dict):
         print("Incorrect HA Mode selected")
     pass
 
-
+"""
 class firewall_basic_info:
 
     def __init__(self, *args, **kwargs):
@@ -60,7 +63,7 @@ class firewall_basic_info:
         print("LACP interfaces are " + self.lacp_interfaces)
         print("Default route is " + self.default_gateway)
 
-
+"""
 
 def main():
     global dict_basic
@@ -73,6 +76,7 @@ def main():
 
     # converting the panda dataframe to dictonary
     dict_basic = df_basic_info.to_dict().get('USER INPUT')
+    print(dict_basic['HA MODE'])
     basic_info_append(dict_basic)
 
 
