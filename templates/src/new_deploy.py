@@ -8,7 +8,7 @@ import inquirer
 import maskpass
 
 def validate_mgmt_ips(management_ips):
-    
+
 
     pass
 
